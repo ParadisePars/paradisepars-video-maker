@@ -1,0 +1,28 @@
+
+name: ParadisePars Video Generator
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-video:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get project files
+        uses: actions/checkout@v4
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Generate video
+        run: python3 video_maker.py
+
+      - name: Save finished MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: paradisepars-test-video
+          path: output/paradisepars_test.mp4
+          if-no-files-found: error
